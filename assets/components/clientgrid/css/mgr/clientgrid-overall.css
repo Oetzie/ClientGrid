@@ -5,3 +5,7 @@
 .x-form-element .x-grid-panel .x-toolbar .x-btn {
     padding: 10px 15px;
 }
+
+.x-btn-text .icon {
+    margin-right: 8px;
+}
