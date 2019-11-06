@@ -1,0 +1,51 @@
+{
+    "name": "ClientGrid",
+    "lowCaseName": "clientgrid",
+    "description": "A grid solution for MODX Revolution.",
+    "author": "Oetzie.nl",
+    "version": "1.0.0-pl",
+    "package":{
+        "menus": [{
+            "text": "clientgrid",
+            "description": "clientgrid.desc",
+            "parent": "components",
+            "action": "home",
+            "permissions": "clientgrid"
+        }],
+        "elements": {
+            "snippets": [{
+                "name": "ClientGridRender",
+                "file": "clientgridrender.snippet.php"
+            }],
+            "plugins": [{
+                "name": "ClientGrid",
+                "file": "clientgrid.plugin.php",
+                "events": [
+                    "OnManagerPageBeforeRender",
+                    "OnTVInputRenderList",
+                    "OnTVInputPropertiesList"
+                ]
+            }]
+        },
+        "systemSettings": [{
+            "key": "branding_url",
+            "value": "//www.oetzie.nl",
+            "area": "clientgrid"
+        },{
+            "key": "branding_url_help",
+            "value": "//www.oetzie.nl",
+            "area": "clientgrid"
+        }]
+    },
+    "build":{
+        "readme": "docs/readme.txt",
+        "license": "docs/license.txt",
+        "changelog": "docs/changelog.txt",
+        "resolver": {
+            "after": [
+                "tables.resolver.php",
+                "permissions.resolver.php"
+            ]
+        }
+    }
+}

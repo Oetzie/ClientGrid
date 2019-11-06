@@ -1,0 +1,67 @@
+/* Should be moved to default theme. */
+.x-menu-item-icon {
+    left: 7px !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+    text-align: center !important;
+}
+
+/* Should be moved to default theme. */
+.x-btn-text .icon {
+    margin-right: 8px;
+}
+
+#modx-action-buttons .x-btn-branding {
+    background: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    color: #555555 !important;
+}
+
+.modx-config-error {
+    padding: 15px;
+    background-color: #fff;
+}
+
+.modx-config-error .x-panel-bwrap {
+    color: #856404;
+    padding: 12px 20px;
+    background: #fff3cd !important;
+    border: 1px solid #ffeeba;
+    border-radius: 3px;
+}
+
+.x-form-checkboxgroup {
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;;
+}
+
+.x-form-checkboxgroup .x-fieldset-body {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.vertical-tabs-body .panel-desc {
+    margin: 0;
+}
+
+.vertical-tabs-body .modx-config-error {
+    padding: 15px 0 0;
+}
+
+.x-window .vertical-tabs-bwrap {
+    padding: 0;
+    box-shadow: none;
+}
+
+.clientgrid-extra-combo .clientgrid-extra-combo-item {
+    margin: 6px 0 0;
+}
+
+.clientgrid-extra-combo .clientgrid-extra-combo-item .x-btn {
+    padding: 9px 12px;
+    margin: 0 0 0 5px;
+    cursor: pointer;
+}
