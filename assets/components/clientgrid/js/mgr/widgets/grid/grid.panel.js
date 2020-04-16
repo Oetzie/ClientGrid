@@ -15,6 +15,7 @@ ClientGrid.panel.Grid = function(config) {
         }, {
             xtype       : 'modx-tabs',
             items       : [{
+                layout      : 'form',
                 title       : _('clientgrid.grid'),
                 items       : [{
                     html        : '<p>' + _('clientgrid.grid_desc') + '</p>',
@@ -163,6 +164,7 @@ ClientGrid.panel.Grid = function(config) {
                     }]
                 }]
             }, {
+                layout      : 'form',
                 title       : _('clientgrid.columns'),
                 items       : [{
                     html        : '<p>' + _('clientgrid.columns_desc') + '</p>',
@@ -174,6 +176,7 @@ ClientGrid.panel.Grid = function(config) {
                     record      : config.record
                 }]
             }, {
+                layout      : 'form',
                 title       : _('clientgrid.fields'),
                 items       : [{
                     html        : '<p>' + _('clientgrid.fields_desc') + '</p>',
@@ -185,6 +188,7 @@ ClientGrid.panel.Grid = function(config) {
                     record      : config.record
                 }]
             }, {
+                layout      : 'form',
                 title       : _('clientgrid.tabs'),
                 items       : [{
                     html        : '<p>' + _('clientgrid.tabs_desc') + '</p>',

@@ -10,6 +10,22 @@ class ClientGridColumn extends xPDOSimpleObject
 {
     /**
      * @access public.
+     * @return String.
+     */
+    public function getNameFormatted()
+    {
+        $lexicon    = 'clientgrid.grid_column_' . $this->get('name');
+        $formatted  = $this->xpdo->lexicon($lexicon);
+
+        if ($formatted !== $lexicon) {
+            return $formatted;
+        }
+
+        return $this->get('name');
+    }
+
+    /**
+     * @access public.
      * @return Integer.
      */
     public function getMenuIndex()

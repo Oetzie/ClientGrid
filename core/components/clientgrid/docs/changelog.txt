@@ -3,6 +3,14 @@ Client Grid
 ----------------------
 
 ----------------------
+Version: 1.1.0
+Released: 2020-04-16
+----------------------
+- Bug fixes
+    - Check if TinyMCE is installed (version by Oetzie)
+- Lexicon support for labels/descriptions
+
+----------------------
 Version: 1.0.0
 Released: 2019-10-14
 ----------------------

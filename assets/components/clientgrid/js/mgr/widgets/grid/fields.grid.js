@@ -43,7 +43,7 @@ ClientGrid.grid.Fields = function(config) {
     var columns = new Ext.grid.ColumnModel({
         columns     : [{
             header      : _('clientgrid.label_field_name'),
-            dataIndex   : 'name',
+            dataIndex   : 'name_formatted',
             sortable    : true,
             editable    : false,
             width       : 250
@@ -92,7 +92,7 @@ ClientGrid.grid.Fields = function(config) {
         },
         autosave    : true,
         save_action : 'mgr/grids/fields/updatefromgrid',
-        fields      : ['id', 'grid_id', 'tab_id', 'key', 'name', 'description', 'xtype', 'extra', 'required', 'searchable', 'active', 'menuindex', 'editedon', 'tab_name', 'tab_menuindex'],
+        fields      : ['id', 'grid_id', 'tab_id', 'key', 'name', 'description', 'xtype', 'extra', 'required', 'searchable', 'active', 'menuindex', 'editedon', 'name_formatted', 'description_formatted', 'tab_name', 'tab_menuindex'],
         paging      : true,
         pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         remoteSort  : true,

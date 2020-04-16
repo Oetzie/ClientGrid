@@ -45,20 +45,12 @@ class ClientGridGrid extends xPDOSimpleObject
     {
         $fields = [];
 
-        $criteria = $this->xpdo->newQuery('ClientGridField');
-
-        $criteria->select($this->xpdo->getSelectColumns('ClientGridField', 'ClientGridField'));
-        $criteria->select($this->xpdo->getSelectColumns('ClientGridTab', 'ClientGridTab', 'tab_', ['name', 'description', 'active', 'menuindex']));
-
-        $criteria->leftJoin('ClientGridTab', 'ClientGridTab', '`ClientGridField`.`tab_id` = `ClientGridTab`.`id`');
-
-        $criteria->where([
-            'ClientGridField.grid_id'   => $this->get('id'),
-            'ClientGridField.active'    => 1
+        $criteria = $this->xpdo->newQuery('ClientGridField', [
+            'grid_id'   => $this->get('id'),
+            'active'    => 1
         ]);
 
-        $criteria->sortby('ClientGridTab.menuindex', 'ASC');
-        $criteria->sortby('ClientGridField.menuindex', 'ASC');
+        $criteria->sortby('menuindex', 'ASC');
 
         foreach ($this->xpdo->getCollection('ClientGridField', $criteria) as $field) {
             $fields[] = $field;
@@ -71,12 +63,36 @@ class ClientGridGrid extends xPDOSimpleObject
      * @access public.
      * @return Array.
      */
+    public function getTabs()
+    {
+        $tabs = [];
+
+        $criteria = $this->xpdo->newQuery('ClientGridTab', [
+            'grid_id'   => $this->get('id'),
+            'active'    => 1
+        ]);
+
+        $criteria->sortby('menuindex', 'ASC');
+
+        foreach ($this->xpdo->getCollection('ClientGridTab', $criteria) as $tab) {
+            $tabs[] = $tab;
+        }
+
+        return $tabs;
+    }
+
+    /**
+     * @access public.
+     * @return Array.
+     */
     public function getColumnsFormatted()
     {
         $columns = [];
 
         foreach ($this->getColumns() as $column) {
-            $columns[] = $column->toArray();
+            $columns[] = array_merge($column->toArray(), [
+                'name' => $column->getNameFormatted()
+            ]);
         }
 
         return $columns;
@@ -88,28 +104,28 @@ class ClientGridGrid extends xPDOSimpleObject
      */
     public function getFieldsFormatted()
     {
-        $fields = [];
+        $fields = [
+            [
+                'name'          => $this->xpdo->lexicon('clientgrid.tab_uncategorized'),
+                'description'   => '',
+                'active'        => 1,
+                'fields'        => []
+            ]
+        ];
+
+        foreach ($this->getTabs() as $tab) {
+            $fields[$tab->get('id')] = [
+                'name'          => $tab->getNameFormatted(),
+                'description'   => $tab->getDescriptionFormatted(),
+                'active'        => $tab->get('active'),
+                'fields'        => []
+            ];
+        }
 
         foreach ($this->getFields() as $field) {
-            if (!isset($fields[$field->get('tab_id')])) {
-                if ((int) $field->get('tab_id') === 0) {
-                    $fields[$field->get('tab_id')] = [
-                        'name'          => $this->xpdo->lexicon('clientgrid.tab_uncategorized'),
-                        'description'   => '',
-                        'active'        => 1,
-                        'fields'        => []
-                    ];
-                } else {
-                    $fields[$field->get('tab_id')] = [
-                        'name'          => $field->get('tab_name'),
-                        'description'   => $field->get('tab_description'),
-                        'active'        => $field->get('tab_active'),
-                        'fields'        => []
-                    ];
-                }
+            if (isset($fields[$field->get('tab_id')])) {
+                $fields[$field->get('tab_id')]['fields'][$field->get('id')] = $field;
             }
-
-            $fields[$field->get('tab_id')]['fields'][$field->get('id')] = $field;
         }
 
         foreach ($fields as $key => $field) {
@@ -118,7 +134,9 @@ class ClientGridGrid extends xPDOSimpleObject
 
                 foreach ((array) $field['fields'] as $value) {
                     $newFields[] = array_merge($value->toArray(), [
-                        'extra' => $value->getExtraValues()
+                        'name'          => $value->getNameFormatted(),
+                        'description'   => $value->getDescriptionFormatted(),
+                        'extra'         => $value->getExtraValues()
                     ]);
                 }
 

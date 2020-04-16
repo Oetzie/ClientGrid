@@ -117,7 +117,9 @@ class ClientGridFieldsGetListProcessor extends modObjectGetListProcessor
     public function prepareRow(xPDOObject $object)
     {
         $array = array_merge($object->toArray(), [
-            'extra' => json_decode($object->get('extra'), true),
+            'name_formatted'        => $object->getNameFormatted(),
+            'description_formatted' => $object->getDescriptionFormatted(),
+            'extra'                 => $object->getExtraFormatted()
         ]);
 
         if (empty($object->get('tab_name'))) {

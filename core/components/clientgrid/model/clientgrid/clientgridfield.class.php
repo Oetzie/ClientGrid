@@ -10,6 +10,47 @@ class ClientGridField extends xPDOSimpleObject
 {
     /**
      * @access public.
+     * @return String.
+     */
+    public function getNameFormatted()
+    {
+        $lexicon    = 'clientgrid.grid_field_' . $this->get('name');
+        $formatted  = $this->xpdo->lexicon($lexicon);
+
+        if ($formatted !== $lexicon) {
+            return $formatted;
+        }
+
+        return $this->get('name');
+    }
+
+    /**
+     * @access public.
+     * @return String.
+     */
+    public function getDescriptionFormatted()
+    {
+        $lexicon    = 'clientgrid.grid_field_' . $this->get('name') . '_desc';
+        $formatted  = $this->xpdo->lexicon($lexicon);
+
+        if ($formatted !== $lexicon) {
+            return $formatted;
+        }
+
+        return $this->get('description');
+    }
+
+    /**
+     * @access public.
+     * @return Array.
+     */
+    public function getExtraFormatted()
+    {
+        return json_decode($this->get('extra'), true);
+    }
+
+    /**
+     * @access public.
      * @return Integer.
      */
     public function getMenuIndex()

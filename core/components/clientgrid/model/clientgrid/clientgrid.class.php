@@ -35,7 +35,7 @@ class ClientGrid
 
         $this->config = array_merge([
             'namespace'         => 'clientgrid',
-            'lexicons'          => ['clientgrid:default'],
+            'lexicons'          => ['clientgrid:default', 'clientgrid:grids', 'base:clientgrid', 'site:clientgrid'],
             'base_path'         => $corePath,
             'core_path'         => $corePath,
             'model_path'        => $corePath . 'model/',
@@ -50,7 +50,7 @@ class ClientGrid
             'css_url'           => $assetsUrl . 'css/',
             'assets_url'        => $assetsUrl,
             'connector_url'     => $assetsUrl . 'connector.php',
-            'version'           => '1.0.0',
+            'version'           => '1.1.0',
             'branding_url'      => $this->modx->getOption('clientgrid.branding_url', null, ''),
             'branding_help_url' => $this->modx->getOption('clientgrid.branding_url_help', null, ''),
             'has_permission'    => (bool) $this->modx->hasPermission('clientgrid')
@@ -111,6 +111,28 @@ class ClientGrid
         }
 
         return $this->modx->getOption($this->config['namespace'] . '.' . $key, $options, $default);
+    }
+
+    /**
+     * @access public.
+     * @param String $key.
+     * @return Boolean.
+     */
+    public function checkForExtraByOetzie($key)
+    {
+        $namespace = $this->modx->getObject('modNamespace', [
+            'name' => $key
+        ]);
+
+        if ($namespace) {
+            $readme = rtrim(str_replace('{core_path}', $this->modx->getOption('core_path'), $namespace->get('path')),'/') . '/docs/readme.txt';
+
+            if (file_exists($readme)) {
+                return preg_match('/@oetzie\.nl/i', file_get_contents($readme));
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -393,11 +415,11 @@ class ClientGrid
             'browser'       => $this->modx->lexicon('clientgrid.xtype_browser')
         ];
 
-        if ($this->modx->getObject('modNamespace', ['name' => 'tinymce'])) {
+        if ($this->checkForExtraByOetzie('tinymce')) {
             $xtypes['tinymce'] = $this->modx->lexicon('clientgrid.xtype_tinymce');
         }
 
-        if ($this->modx->getObject('modNamespace', ['name' => 'clientgrid'])) {
+        if ($this->checkForExtraByOetzie('clientgrid')) {
             $xtypes['clientgrid'] = $this->modx->lexicon('clientgrid.xtype_clientgrid');
         }
 
