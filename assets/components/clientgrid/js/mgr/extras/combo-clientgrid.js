@@ -1,8 +1,6 @@
 ClientGrid.combo.Config = function(config) {
     config = config || {};
 
-    console.log(config);
-
     Ext.applyIf(config, {
         url         : ClientGrid.config.connector_url,
         baseParams  : {

@@ -27,6 +27,7 @@ class ClientGridPlugins extends ClientGrid
                 ClientGrid.config = ' . $this->modx->toJSON(array_merge($this->config, [
                     'branding_url'          => $this->getBrandingUrl(),
                     'branding_url_help'     => $this->getHelpUrl(),
+                    'xtypes'                => $this->getXTypes(),
                     'grids'                 => $this->formatGrids($this->getGrids())
                 ])) . ';
             });
@@ -57,5 +58,27 @@ class ClientGridPlugins extends ClientGrid
     public function onTVInputPropertiesList(array $properties = [])
     {
         $this->modx->event->output($this->config['elements_path'] . 'tvs/options/');
+    }
+
+    /**
+     * @access public.
+     * @param Array $properties.
+     */
+    public function OnClientSettingsRegisterSettings(array $properties = [])
+    {
+        $this->modx->controller->addLexiconTopic('clientgrid:clientsettings');
+
+        if (isset($properties['settings'])) {
+            $properties['settings']['clientgrid'] = [
+                'xtype'         => 'clientgrid-panel-gridview',
+                'name'          => $this->modx->lexicon('clientsettings.clientgrid.name'),
+                'fields'        => [[
+                    'xtype'         => 'clientgrid-combo-config',
+                    'name'          => 'grid',
+                    'title'         => $this->modx->lexicon('clientsettings.clientgrid.label_config'),
+                    'description'   => $this->modx->lexicon('clientsettings.clientgrid.label_config_desc')
+                ]]
+            ];
+        }
     }
 }

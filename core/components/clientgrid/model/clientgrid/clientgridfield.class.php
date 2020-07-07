@@ -90,7 +90,7 @@ class ClientGridField extends xPDOSimpleObject
                 }
             }
 
-            if (isset($extras['bindedValues'])) {
+            if (isset($extras['binded_values'])) {
                 $context = $this->xpdo->getOption('default_context');
 
                 if (isset($_GET['context'])) {
@@ -99,8 +99,8 @@ class ClientGridField extends xPDOSimpleObject
                     $context = $_GET['context_key'];
                 }
 
-                if (!empty($extras['bindedValues'])) {
-                    if (preg_match('/^@SELECT\s/i', $extras['bindedValues'])) {
+                if (!empty($extras['binded_values'])) {
+                    if (preg_match('/^@SELECT\s/i', $extras['binded_values'])) {
                         $query = ltrim($extras['query'], '@');
 
                         $placeholders = [
@@ -128,8 +128,8 @@ class ClientGridField extends xPDOSimpleObject
                                 }
                             }
                         }
-                    } else if (preg_match('/^@SNIPPET\s/i', $extras['bindedValues'])) {
-                        $snippet = ltrim($extras['bindedValues'], '@SNIPPET');
+                    } else if (preg_match('/^@SNIPPET\s/i', $extras['binded_values'])) {
+                        $snippet = ltrim($extras['binded_values'], '@SNIPPET');
 
                         $result = $this->xpdo->runSnippet($snippet, [
                             'id'        => $this->get('id'),
@@ -152,7 +152,7 @@ class ClientGridField extends xPDOSimpleObject
             $extras['values'] = $data;
         } else if ($this->get('xtype') === 'browser') {
             $source = $this->xpdo->getObject('modMediaSource', [
-                'id' => $extras['source']
+                'id' => $extras['browser_source']
             ]);
 
             if ($source) {

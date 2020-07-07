@@ -665,8 +665,8 @@ Ext.extend(ClientGrid.window.GridViewCreateItem, MODx.Window, {
                         element = Ext.applyIf({
                             format          : MODx.config.manager_date_format,
                             startDay        : parseInt(MODx.config.manager_week_start),
-                            minValue        : element.extra.minDateValue,
-                            maxValue        : element.extra.maxDateValue
+                            minValue        : element.extra.min_date_value,
+                            maxValue        : element.extra.max_date_value
                         }, element);
 
                         break;
@@ -674,8 +674,8 @@ Ext.extend(ClientGrid.window.GridViewCreateItem, MODx.Window, {
                         element = Ext.applyIf({
                             format          : MODx.config.manager_time_format,
                             offset_time     : MODx.config.server_offset_time,
-                            minValue        : element.extra.minTimeValue,
-                            maxValue        : element.extra.maxTimeValue
+                            minValue        : element.extra.min_time_value,
+                            maxValue        : element.extra.max_time_value
                         }, element);
 
                         break;
@@ -686,10 +686,10 @@ Ext.extend(ClientGrid.window.GridViewCreateItem, MODx.Window, {
                             timeFormat      : MODx.config.manager_time_format,
                             startDay        : parseInt(MODx.config.manager_week_start),
                             offset_time     : MODx.config.server_offset_time,
-                            minDateValue    : element.extra.minDateValue,
-                            maxDateValue    : element.extra.maxDateValue,
-                            minTimeValue    : element.extra.minTimeValue,
-                            maxTimeValue    : element.extra.maxTimeValue
+                            minDateValue    : element.extra.min_date_value,
+                            maxDateValue    : element.extra.max_date_value,
+                            minTimeValue    : element.extra.min_time_value,
+                            maxTimeValue    : element.extra.max_time_value
                         }, element);
 
                         break;
@@ -802,32 +802,40 @@ Ext.extend(ClientGrid.window.GridViewCreateItem, MODx.Window, {
                     case 'browser':
                         element = Ext.applyIf({
                             xtype           : 'modx-combo-browser',
-                            source          : element.extra.source || MODx.config.default_media_source,
-                            openTo          : element.extra.openTo || '/',
-                            allowedFileTypes : element.extra.allowedFileTypes || ''
+                            source          : element.extra.browser_source || MODx.config.default_media_source,
+                            openTo          : element.extra.browser_open_to || '/',
+                            allowedFileTypes : element.extra.browser_allowed_file_types || ''
                         }, element);
 
                         break;
-                    case 'tinymce':
-                        element = Ext.applyIf({
-                            xtype           : 'textarea',
-                            listeners       : {
-                                afterrender     : {
-                                    fn              : function(event) {
-                                        if (MODx.loadRTE) {
-                                            MODx.loadRTE(event.id, element.extra.tinymceConfig);
-                                        }
+                    default:
+                        if (ClientGrid.config.xtypes[field.xtype]) {
+                            var customXType = ClientGrid.config.xtypes[field.xtype];
+
+                            if (customXType.type === 'custom') {
+                                element.xtype = customXType.xtype;
+
+                                Ext.iterate(customXType.fields, (function(field2) {
+                                    if (element.extra[field.xtype + '_' + field2.name]) {
+                                        element[field2.name] = element.extra[field.xtype + '_' + field2.name];
+                                    } else {
+                                        element[field2.name] = '';
                                     }
+                                }).bind(this));
+
+                                if (field.xtype === 'tinymce') {
+                                    element.listeners = {
+                                        afterrender     : {
+                                            fn              : function(event) {
+                                                if (MODx.loadRTE) {
+                                                    MODx.loadRTE(event.id, element.config || null);
+                                                }
+                                            }
+                                        }
+                                    };
                                 }
                             }
-                        }, element);
-
-                        break;
-                    case 'clientgrid':
-                        element = Ext.applyIf({
-                            xtype           : 'clientgrid-panel-gridview',
-                            grid            : element.extra.gridConfig
-                        }, element);
+                        }
 
                         break;
                 }
@@ -927,8 +935,8 @@ Ext.extend(ClientGrid.window.GridViewUpdateItem, MODx.Window, {
                         element = Ext.applyIf({
                             format          : MODx.config.manager_date_format,
                             startDay        : parseInt(MODx.config.manager_week_start),
-                            minValue        : element.extra.minDateValue,
-                            maxValue        : element.extra.maxDateValue
+                            minValue        : element.extra.min_date_value,
+                            maxValue        : element.extra.max_date_value
                         }, element);
 
                         break;
@@ -936,8 +944,8 @@ Ext.extend(ClientGrid.window.GridViewUpdateItem, MODx.Window, {
                         element = Ext.applyIf({
                             format          : MODx.config.manager_time_format,
                             offset_time     : MODx.config.server_offset_time,
-                            minValue        : element.extra.minTimeValue,
-                            maxValue        : element.extra.maxTimeValue
+                            minValue        : element.extra.min_time_value,
+                            maxValue        : element.extra.max_time_value
                         }, element);
 
                         break;
@@ -948,10 +956,10 @@ Ext.extend(ClientGrid.window.GridViewUpdateItem, MODx.Window, {
                             timeFormat      : MODx.config.manager_time_format,
                             startDay        : parseInt(MODx.config.manager_week_start),
                             offset_time     : MODx.config.server_offset_time,
-                            minDateValue    : element.extra.minDateValue,
-                            maxDateValue    : element.extra.maxDateValue,
-                            minTimeValue    : element.extra.minTimeValue,
-                            maxTimeValue    : element.extra.maxTimeValue
+                            minDateValue    : element.extra.min_date_value,
+                            maxDateValue    : element.extra.max_date_value,
+                            minTimeValue    : element.extra.min_time_value,
+                            maxTimeValue    : element.extra.max_time_value
                         }, element);
 
                         break;
@@ -1064,33 +1072,40 @@ Ext.extend(ClientGrid.window.GridViewUpdateItem, MODx.Window, {
                     case 'browser':
                         element = Ext.applyIf({
                             xtype           : 'modx-combo-browser',
-                            source          : element.extra.source || MODx.config.default_media_source,
-                            openTo          : element.extra.openTo || '/',
-                            allowedFileTypes : element.extra.allowedFileTypes || ''
+                            source          : element.extra.browser_source || MODx.config.default_media_source,
+                            openTo          : element.extra.browser_open_to || '/',
+                            allowedFileTypes : element.extra.browser_allowed_file_types || ''
                         }, element);
 
                         break;
-                    case 'tinymce':
-                        element = Ext.applyIf({
-                            xtype           : 'textarea',
-                            listeners       : {
-                                afterrender     : {
-                                    fn              : function(event) {
-                                        if (MODx.loadRTE) {
-                                            MODx.loadRTE(event.id, element.extra.tinymceConfig);
-                                        }
+                    default:
+                        if (ClientGrid.config.xtypes[field.xtype]) {
+                            var customXType = ClientGrid.config.xtypes[field.xtype];
+
+                            if (customXType.type === 'custom') {
+                                element.xtype = customXType.xtype;
+
+                                Ext.iterate(customXType.fields, (function(field2) {
+                                    if (element.extra[field.xtype + '_' + field2.name]) {
+                                        element[field2.name] = element.extra[field.xtype + '_' + field2.name];
+                                    } else {
+                                        element[field2.name] = '';
                                     }
+                                }).bind(this));
+
+                                if (field.xtype === 'tinymce') {
+                                    element.listeners = {
+                                        afterrender     : {
+                                            fn              : function(event) {
+                                                if (MODx.loadRTE) {
+                                                    MODx.loadRTE(event.id, element.config || null);
+                                                }
+                                            }
+                                        }
+                                    };
                                 }
                             }
-                        }, element);
-
-                        break;
-                    case 'clientgrid':
-                        element = Ext.applyIf({
-                            xtype           : 'clientgrid-panel-gridview',
-                            grid            : element.extra.gridConfig,
-                            value           : record[element.key] || ''
-                        }, element);
+                        }
 
                         break;
                 }

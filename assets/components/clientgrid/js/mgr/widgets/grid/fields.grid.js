@@ -404,11 +404,13 @@ ClientGrid.window.CreateField = function(config) {
                 }]
             }, {
                 title       : _('clientgrid.extra_settings'),
+                defaults    : {
+                    layout      : 'form',
+                    labelSeparator : ''
+                },
                 items       : [{
                     id          : 'clientgrid-extra-default-create',
-                    items       : [{
-                        html    : '<p>' + _('clientgrid.no_extra_settings') + '</p>'
-                    }]
+                    items       : []
                 }, {
                     id          : 'clientgrid-extra-datefield-create',
                     items       : [{
@@ -423,7 +425,7 @@ ClientGrid.window.CreateField = function(config) {
                                 xtype       : 'datefield',
                                 fieldLabel  : _('clientgrid.label_field_mindate'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_mindate_desc'),
-                                name        : 'minDateValue',
+                                name        : 'extra[min_date_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_date_format,
                                 startDay    : parseInt(MODx.config.manager_week_start)
@@ -438,7 +440,7 @@ ClientGrid.window.CreateField = function(config) {
                                 xtype       : 'datefield',
                                 fieldLabel  : _('clientgrid.label_field_maxdate'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_maxdate_desc'),
-                                name        : 'maxDateValue',
+                                name        : 'extra[max_date_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_date_format,
                                 startDay    : parseInt(MODx.config.manager_week_start)
@@ -463,7 +465,7 @@ ClientGrid.window.CreateField = function(config) {
                                 xtype       : 'timefield',
                                 fieldLabel  : _('clientgrid.label_field_mintime'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_mintime_desc'),
-                                name        : 'minTimeValue',
+                                name        : 'extra[min_time_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_time_format
                             }, {
@@ -477,7 +479,7 @@ ClientGrid.window.CreateField = function(config) {
                                 xtype       : 'timefield',
                                 fieldLabel  : _('clientgrid.label_field_maxtime'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_maxtime_desc'),
-                                name        : 'maxTimeValue',
+                                name        : 'extra[max_time_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_time_format
                             }, {
@@ -489,16 +491,15 @@ ClientGrid.window.CreateField = function(config) {
                     }]
                 }, {
                     id          : 'clientgrid-extra-combo-create',
-                    layout      : 'form',
-                    labelSeparator : '',
                     items       : [{
                         xtype       : 'clientgrid-combo-values',
-                        fieldLabel  : _('clientgrid.label_field_values')
+                        fieldLabel  : _('clientgrid.label_field_values'),
+                        name        : 'extra[values]'
                     }, {
                         xtype       : 'textarea',
                         fieldLabel  : _('clientgrid.label_field_binded_values'),
                         description : MODx.expandHelp ? '' : _('clientgrid.label_field_binded_values_desc'),
-                        name        : 'bindedValues',
+                        name        : 'extra[binded_values]',
                         anchor      : '100%'
                     }, {
                         xtype       : MODx.expandHelp ? 'label' : 'hidden',
@@ -519,7 +520,8 @@ ClientGrid.window.CreateField = function(config) {
                                 xtype       : 'modx-combo-source',
                                 fieldLabel  : _('clientgrid.label_field_source'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_source_desc'),
-                                name        : 'source',
+                                name        : 'extra[browser_source]',
+                                hiddenName  : 'extra[browser_source]',
                                 anchor      : '100%',
                                 value       : MODx.config.default_media_source
                             }, {
@@ -530,7 +532,7 @@ ClientGrid.window.CreateField = function(config) {
                                 xtype       : 'textfield',
                                 fieldLabel  : _('clientgrid.label_field_filetypes'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_filetypes_desc'),
-                                name        : 'allowedFileTypes',
+                                name        : 'extra[browser_allowed_file_types]',
                                 anchor      : '100%',
                                 value       : ''
                             }, {
@@ -544,7 +546,7 @@ ClientGrid.window.CreateField = function(config) {
                                 xtype       : 'textfield',
                                 fieldLabel  : _('clientgrid.label_field_opento'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_opento_desc'),
-                                name        : 'openTo',
+                                name        : 'extra[browser_open_to]',
                                 anchor      : '100%',
                                 value       : '/'
                             }, {
@@ -553,36 +555,6 @@ ClientGrid.window.CreateField = function(config) {
                                 cls         : 'desc-under'
                             }]
                         }]
-                    }]
-                }, {
-                    id          : 'clientgrid-extra-tinymce-create',
-                    layout      : 'form',
-                    labelSeparator : '',
-                    items       : [{
-                        xtype       : 'tinymce-combo-config',
-                        fieldLabel  : _('clientgrid.label_setting_tinymce_config'),
-                        description : MODx.expandHelp ? '' : _('clientgrid.label_setting_tinymce_config_desc'),
-                        hiddenName  : 'tinymceConfig',
-                        anchor      : '100%'
-                    }, {
-                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                        html        : _('clientgrid.label_setting_tinymce_config_desc'),
-                        cls         : 'desc-under'
-                    }]
-                }, {
-                    id          : 'clientgrid-extra-clientgrid-create',
-                    layout      : 'form',
-                    labelSeparator : '',
-                    items       : [{
-                        xtype       : 'clientgrid-combo-config',
-                        fieldLabel  : _('clientgrid.label_setting_clientgrid_config'),
-                        description : MODx.expandHelp ? '' : _('clientgrid.label_setting_clientgrid_config_desc'),
-                        hiddenName  : 'gridConfig',
-                        anchor      : '100%'
-                    }, {
-                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                        html        : _('clientgrid.label_setting_clientgrid_config_desc'),
-                        cls         : 'desc-under'
                     }]
                 }]
             }]
@@ -594,66 +566,107 @@ ClientGrid.window.CreateField = function(config) {
 
 Ext.extend(ClientGrid.window.CreateField, MODx.Window, {
     onHandleXtype: function(event) {
-        var elements = {
-            default         : false,
-            datefield       : false,
-            timefield       : false,
-            datetimefield   : false,
-            combo           : false,
-            browser         : false,
-            tinymce         : false,
-            clientgrid      : false
-        };
+        var value = event.getRecordValue();
 
-        switch (event.getValue()) {
-            case 'datefield':
-                elements.datefield  = true;
+        if (value) {
+            var fields      = [];
+            var elements    = {
+                default         : false,
+                datefield       : false,
+                timefield       : false,
+                datetimefield   : false,
+                combo           : false,
+                browser         : false
+            };
 
-                break;
-            case 'timefield':
-                elements.timefield  = true;
+            switch (value.data.id) {
+                case 'datefield':
+                    elements.datefield  = true;
 
-                break;
-            case 'datetimefield':
-                elements.datefield  = true;
-                elements.timefield  = true;
+                    break;
+                case 'timefield':
+                    elements.timefield  = true;
 
-                break;
-            case 'combo':
-            case 'radiogroup':
-            case 'checkboxgroup':
-                elements.combo      = true;
+                    break;
+                case 'datetimefield':
+                    elements.datefield  = true;
+                    elements.timefield  = true;
 
-                break;
-            case 'browser':
-                elements.browser    = true;
+                    break;
+                case 'combo':
+                case 'radiogroup':
+                case 'checkboxgroup':
+                    elements.combo      = true;
 
-                break;
-            case 'tinymce':
-                elements.tinymce    = true;
+                    break;
+                case 'browser':
+                    elements.browser    = true;
 
-                break;
-            case 'clientgrid':
-                elements.clientgrid = true;
+                    break;
+                default:
+                    elements.default    = true;
 
-                break;
-            default:
-                elements.default    = true;
-
-                break;
-        }
-
-        Ext.iterate(elements, function(element, value) {
-            var tab = Ext.getCmp('clientgrid-extra-' + element + '-create');
-
-            if (tab) {
-                if (value) {
-                    tab.show();
-                } else {
-                    tab.hide();
-                }
+                    break;
             }
-        });
+
+            if (value.data.fields) {
+                Ext.iterate(value.data.fields, (function(field) {
+                    var element = {
+                        xtype       : field.xtype || 'textfield',
+                        fieldLabel  : field.title,
+                        name        : 'extra[' + value.data.id + '_' + field.name + ']',
+                        hiddenName  : 'extra[' + value.data.id + '_' + field.name + ']',
+                        anchor      : '100%',
+                        value       : field.value || ''
+                    };
+
+                    if (this.record && this.record.extra) {
+                        if (this.record.extra[value.data.id + '_' + field.name]) {
+                            element.value = this.record.extra[value.data.id + '_' + field.name];
+                        }
+                    }
+
+                    if (field.description) {
+                        element.description = MODx.expandHelp ? '' : field.description;
+                    }
+
+                    fields.push(element);
+
+                    if (field.description) {
+                        fields.push({
+                            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                            html        : field.description,
+                            cls         : 'desc-under'
+                        });
+                    }
+                }).bind(this));
+            }
+
+            if (fields.length === 0) {
+                fields.push({
+                    html        : '<p>' + _('clientgrid.no_extra_settings') + '</p>',
+                    cls         : 'modx-config-error'
+                });
+            }
+
+            Ext.iterate(elements, (function(element, value) {
+                var tab = Ext.getCmp('clientgrid-extra-' + element + '-create');
+
+                if (tab) {
+                    if (element === 'default') {
+                        tab.removeAll();
+                        tab.add(fields);
+                        tab.doLayout();
+                    }
+
+                    if (value) {
+                        tab.show();
+                    } else {
+                        tab.hide();
+                    }
+                }
+            }).bind(this));
+        }
     }
 });
 
@@ -802,11 +815,13 @@ ClientGrid.window.UpdateField = function(config) {
                 }]
             }, {
                 title       : _('clientgrid.extra_settings'),
+                defaults    : {
+                    layout      : 'form',
+                    labelSeparator : ''
+                },
                 items       : [{
                     id          : 'clientgrid-extra-default-update',
-                    items       : [{
-                        html    : '<p>' + _('clientgrid.no_extra_settings') + '</p>'
-                    }]
+                    items       : []
                 }, {
                     id          : 'clientgrid-extra-datefield-update',
                     items       : [{
@@ -821,11 +836,11 @@ ClientGrid.window.UpdateField = function(config) {
                                 xtype       : 'datefield',
                                 fieldLabel  : _('clientgrid.label_field_mindate'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_mindate_desc'),
-                                name        : 'minDateValue',
+                                name        : 'extra[min_date_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_date_format,
                                 startDay    : parseInt(MODx.config.manager_week_start),
-                                value       : config.record.extra.minDateValue
+                                value       : config.record.extra.min_date_value
                             }, {
                                 xtype       : MODx.expandHelp ? 'label' : 'hidden',
                                 html        : _('clientgrid.label_field_mindate_desc'),
@@ -837,11 +852,11 @@ ClientGrid.window.UpdateField = function(config) {
                                 xtype       : 'datefield',
                                 fieldLabel  : _('clientgrid.label_field_maxdate'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_maxdate_desc'),
-                                name        : 'maxDateValue',
+                                name        : 'extra[max_date_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_date_format,
                                 startDay    : parseInt(MODx.config.manager_week_start),
-                                value       : config.record.extra.maxDateValue
+                                value       : config.record.extra.max_date_value
                             }, {
                                 xtype       : MODx.expandHelp ? 'label' : 'hidden',
                                 html        : _('clientgrid.label_field_maxdate_desc'),
@@ -863,10 +878,10 @@ ClientGrid.window.UpdateField = function(config) {
                                 xtype       : 'timefield',
                                 fieldLabel  : _('clientgrid.label_field_mintime'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_mintime_desc'),
-                                name        : 'minTimeValue',
+                                name        : 'extra[min_time_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_time_format,
-                                value       : config.record.extra.minTimeValue
+                                value       : config.record.extra.min_time_value
                             }, {
                                 xtype       : MODx.expandHelp ? 'label' : 'hidden',
                                 html        : _('clientgrid.label_field_mintime_desc'),
@@ -878,10 +893,10 @@ ClientGrid.window.UpdateField = function(config) {
                                 xtype       : 'timefield',
                                 fieldLabel  : _('clientgrid.label_field_maxtime'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_maxtime_desc'),
-                                name        : 'maxTimeValue',
+                                name        : 'extra[max_time_value]',
                                 anchor      : '100%',
                                 format      : MODx.config.manager_time_format,
-                                value       : config.record.extra.maxTimeValue
+                                value       : config.record.extra.max_time_value
                             }, {
                                 xtype       : MODx.expandHelp ? 'label' : 'hidden',
                                 html        : _('clientgrid.label_field_maxtime_desc'),
@@ -891,19 +906,18 @@ ClientGrid.window.UpdateField = function(config) {
                     }]
                 }, {
                     id          : 'clientgrid-extra-combo-update',
-                    layout      : 'form',
-                    labelSeparator : '',
                     items       : [{
                         xtype       : 'clientgrid-combo-values',
                         fieldLabel  : _('clientgrid.label_field_values'),
+                        name        : 'extra[values]',
                         value       : Ext.encode(config.record.extra.values) || '[]'
                     }, {
                         xtype       : 'textarea',
                         fieldLabel  : _('clientgrid.label_field_binded_values'),
                         description : MODx.expandHelp ? '' : _('clientgrid.label_field_binded_values_desc'),
-                        name        : 'bindedValues',
+                        name        : 'extra[binded_values]',
                         anchor      : '100%',
-                        value       : config.record.extra.bindedValues || ''
+                        value       : config.record.extra.binded_values || ''
                     }, {
                         xtype       : MODx.expandHelp ? 'label' : 'hidden',
                         html        : _('clientgrid.label_field_binded_values_desc'),
@@ -923,9 +937,9 @@ ClientGrid.window.UpdateField = function(config) {
                                 xtype       : 'modx-combo-source',
                                 fieldLabel  : _('clientgrid.label_field_source'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_source_desc'),
-                                name        : 'source',
+                                name        : 'extra[browser_source]',
+                                hiddenName  : 'extra[browser_source]',
                                 anchor      : '100%',
-                                value       : MODx.config.default_media_source,
                                 value       : config.record.extra.source || MODx.config.default_media_source
                             }, {
                                 xtype       : MODx.expandHelp ? 'label' : 'hidden',
@@ -935,7 +949,7 @@ ClientGrid.window.UpdateField = function(config) {
                                 xtype       : 'textfield',
                                 fieldLabel  : _('clientgrid.label_field_filetypes'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_filetypes_desc'),
-                                name        : 'allowedFileTypes',
+                                name        : 'extra[browser_allowed_file_types]',
                                 anchor      : '100%',
                                 value       : config.record.extra.allowedFileTypes || ''
                             }, {
@@ -949,47 +963,15 @@ ClientGrid.window.UpdateField = function(config) {
                                 xtype       : 'textfield',
                                 fieldLabel  : _('clientgrid.label_field_opento'),
                                 description : MODx.expandHelp ? '' : _('clientgrid.label_field_opento_desc'),
-                                name        : 'openTo',
+                                name        : 'extra[browser_open_to]',
                                 anchor      : '100%',
-                                value       : config.record.extra.openTo || '/'
+                                value       : config.record.extra.open_to || '/'
                             }, {
                                 xtype       : MODx.expandHelp ? 'label' : 'hidden',
                                 html        :  _('clientgrid.label_field_opento_desc'),
                                 cls         : 'desc-under'
                             }]
                         }]
-                    }]
-                }, {
-                    id          : 'clientgrid-extra-tinymce-update',
-                    layout      : 'form',
-                    labelSeparator : '',
-                    items       : [{
-                        xtype       : 'tinymce-combo-config',
-                        fieldLabel  : _('clientgrid.label_setting_tinymce_config'),
-                        description : MODx.expandHelp ? '' : _('clientgrid.label_setting_tinymce_config_desc'),
-                        hiddenName  : 'tinymceConfig',
-                        anchor      : '100%',
-                        value       : config.record.extra.tinymceConfig || ''
-                    }, {
-                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                        html        : _('clientgrid.label_setting_tinymce_config_desc'),
-                        cls         : 'desc-under'
-                    }]
-                }, {
-                    id          : 'clientgrid-extra-clientgrid-update',
-                    layout      : 'form',
-                    labelSeparator : '',
-                    items       : [{
-                        xtype       : 'clientgrid-combo-config',
-                        fieldLabel  : _('clientgrid.label_setting_clientgrid_config'),
-                        description : MODx.expandHelp ? '' : _('clientgrid.label_setting_clientgrid_config_desc'),
-                        hiddenName  : 'gridConfig',
-                        anchor      : '100%',
-                        value       : config.record.extra.gridConfig || ''
-                    }, {
-                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                        html        : _('clientgrid.label_setting_clientgrid_config_desc'),
-                        cls         : 'desc-under'
                     }]
                 }]
             }]
@@ -1001,67 +983,107 @@ ClientGrid.window.UpdateField = function(config) {
 
 Ext.extend(ClientGrid.window.UpdateField, MODx.Window, {
     onHandleXtype: function(event) {
-        var elements = {
-            default         : false,
-            datefield       : false,
-            timefield       : false,
-            datetimefield   : false,
-            combo           : false,
-            browser         : false,
-            tinymce         : false,
-            clientgrid      : false
-        };
+        var value = event.getRecordValue();
 
-        switch (event.getValue()) {
-            case 'datefield':
-                elements.datefield  = true;
+        if (value) {
+            var fields      = [];
+            var elements    = {
+                default         : false,
+                datefield       : false,
+                timefield       : false,
+                datetimefield   : false,
+                combo           : false,
+                browser         : false
+            };
 
-                break;
-            case 'timefield':
-                elements.timefield  = true;
+            switch (value.data.id) {
+                case 'datefield':
+                    elements.datefield  = true;
 
-                break;
-            case 'datetimefield':
-                elements.datefield  = true;
-                elements.timefield  = true;
+                    break;
+                case 'timefield':
+                    elements.timefield  = true;
 
-                break;
+                    break;
+                case 'datetimefield':
+                    elements.datefield  = true;
+                    elements.timefield  = true;
 
-            case 'combo':
-            case 'radiogroup':
-            case 'checkboxgroup':
-                elements.combo      = true;
+                    break;
+                case 'combo':
+                case 'radiogroup':
+                case 'checkboxgroup':
+                    elements.combo      = true;
 
-                break;
-            case 'browser':
-                elements.browser    = true;
+                    break;
+                case 'browser':
+                    elements.browser    = true;
 
-                break;
-            case 'tinymce':
-                elements.tinymce    = true;
+                    break;
+                default:
+                    elements.default    = true;
 
-                break;
-            case 'clientgrid':
-                elements.clientgrid = true;
-
-                break;
-            default:
-                elements.default    = true;
-
-                break;
-        }
-
-        Ext.iterate(elements, function(element, value) {
-            var tab = Ext.getCmp('clientgrid-extra-' + element + '-update');
-
-            if (tab) {
-                if (value) {
-                    tab.show();
-                } else {
-                    tab.hide();
-                }
+                    break;
             }
-        });
+
+            if (value.data.fields) {
+                Ext.iterate(value.data.fields, (function(field) {
+                    var element = {
+                        xtype       : field.xtype || 'textfield',
+                        fieldLabel  : field.title,
+                        name        : 'extra[' + value.data.id + '_' + field.name + ']',
+                        hiddenName  : 'extra[' + value.data.id + '_' + field.name + ']',
+                        anchor      : '100%',
+                        value       : field.value || ''
+                    };
+
+                    if (this.record && this.record.extra) {
+                        if (this.record.extra[value.data.id + '_' + field.name]) {
+                            element.value = this.record.extra[value.data.id + '_' + field.name];
+                        }
+                    }
+
+                    if (field.description) {
+                        element.description = MODx.expandHelp ? '' : field.description;
+                    }
+
+                    fields.push(element);
+
+                    if (field.description) {
+                        fields.push({
+                            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                            html        : field.description,
+                            cls         : 'desc-under'
+                        });
+                    }
+                }).bind(this));
+            }
+
+            if (fields.length === 0) {
+                fields.push({
+                    html        : '<p>' + _('clientgrid.no_extra_settings') + '</p>',
+                    cls         : 'modx-config-error'
+                });
+            }
+
+            Ext.iterate(elements, (function(element, value) {
+                var tab = Ext.getCmp('clientgrid-extra-' + element + '-update');
+
+                if (tab) {
+                    if (element === 'default') {
+                        tab.removeAll();
+                        tab.add(fields);
+                        tab.doLayout();
+                    }
+
+                    if (value) {
+                        tab.show();
+                    } else {
+                        tab.hide();
+                    }
+                }
+            }).bind(this));
+        }
     }
 });
 

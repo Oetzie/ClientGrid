@@ -50,7 +50,7 @@ class ClientGrid
             'css_url'           => $assetsUrl . 'css/',
             'assets_url'        => $assetsUrl,
             'connector_url'     => $assetsUrl . 'connector.php',
-            'version'           => '1.1.0',
+            'version'           => '1.2.0',
             'branding_url'      => $this->modx->getOption('clientgrid.branding_url', null, ''),
             'branding_help_url' => $this->modx->getOption('clientgrid.branding_url_help', null, ''),
             'has_permission'    => (bool) $this->modx->hasPermission('clientgrid')
@@ -111,28 +111,6 @@ class ClientGrid
         }
 
         return $this->modx->getOption($this->config['namespace'] . '.' . $key, $options, $default);
-    }
-
-    /**
-     * @access public.
-     * @param String $key.
-     * @return Boolean.
-     */
-    public function checkForExtraByOetzie($key)
-    {
-        $namespace = $this->modx->getObject('modNamespace', [
-            'name' => $key
-        ]);
-
-        if ($namespace) {
-            $readme = rtrim(str_replace('{core_path}', $this->modx->getOption('core_path'), $namespace->get('path')),'/') . '/docs/readme.txt';
-
-            if (file_exists($readme)) {
-                return preg_match('/@oetzie\.nl/i', file_get_contents($readme));
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -398,29 +376,78 @@ class ClientGrid
     public function getXTypes()
     {
         $xtypes = [
-            'textfield'     => $this->modx->lexicon('clientgrid.xtype_textfield'),
-            'datefield'     => $this->modx->lexicon('clientgrid.xtype_datefield'),
-            'timefield'     => $this->modx->lexicon('clientgrid.xtype_timefield'),
-            'datetimefield' => $this->modx->lexicon('clientgrid.xtype_datetimefield'),
-            'passwordfield' => $this->modx->lexicon('clientgrid.xtype_passwordfield'),
-            'numberfield'   => $this->modx->lexicon('clientgrid.xtype_numberfield'),
-            'textarea'      => $this->modx->lexicon('clientgrid.xtype_textarea'),
-            'richtext'      => $this->modx->lexicon('clientgrid.xtype_richtext'),
-            'boolean'       => $this->modx->lexicon('clientgrid.xtype_boolean'),
-            'combo'         => $this->modx->lexicon('clientgrid.xtype_combo'),
-            'checkbox'      => $this->modx->lexicon('clientgrid.xtype_checkbox'),
-            'checkboxgroup' => $this->modx->lexicon('clientgrid.xtype_checkboxgroup'),
-            'radiogroup'    => $this->modx->lexicon('clientgrid.xtype_radiogroup'),
-            'resource'      => $this->modx->lexicon('clientgrid.xtype_resource'),
-            'browser'       => $this->modx->lexicon('clientgrid.xtype_browser')
+            'textfield'     => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_textfield')
+            ],
+            'datefield'     => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_datefield')
+            ],
+            'timefield'     => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_timefield')
+            ],
+            'datetimefield' => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_datetimefield')
+            ],
+            'passwordfield' => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_passwordfield')
+            ],
+            'numberfield'   => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_numberfield')
+            ],
+            'textarea'      => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_textarea')
+            ],
+            'richtext'      => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_richtext')
+            ],
+            'boolean'       => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_boolean')
+            ],
+            'combo'         => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_combo')
+            ],
+            'checkbox'      => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_checkbox')
+            ],
+            'checkboxgroup' => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_checkboxgroup')
+            ],
+            'radiogroup'    => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_radiogroup')
+            ],
+            'resource'      => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_resource')
+            ],
+            'browser'       => [
+                'type'          => 'default',
+                'name'          => $this->modx->lexicon('clientgrid.xtype_browser')
+            ]
         ];
 
-        if ($this->checkForExtraByOetzie('tinymce')) {
-            $xtypes['tinymce'] = $this->modx->lexicon('clientgrid.xtype_tinymce');
-        }
+        $this->modx->invokeEvent('OnClientSettingsRegisterSettings', [
+            'settings' => &$xtypes
+        ]);
 
-        if ($this->checkForExtraByOetzie('clientgrid')) {
-            $xtypes['clientgrid'] = $this->modx->lexicon('clientgrid.xtype_clientgrid');
+        foreach ($xtypes as $key => $xtype) {
+            $xtypes[$key] = array_merge([
+                'type'      => 'custom',
+                'xtype'     => 'textfield',
+                'fields'    => []
+            ], $xtype);
         }
 
         return $xtypes;

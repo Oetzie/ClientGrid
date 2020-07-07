@@ -2,12 +2,19 @@
 Client Grid
 ----------------------
 
+---------------------
+Version: 1.2.0
+Released: 2020-07-07
+----------------------
+- ClientSettings plugin support (https://github.com/Oetzie/ClientGrid)
+- TinyMCE support if installed (https://github.com/Oetzie/TinyMCE)
+- ImageCropper support if installed (https://github.com/Sterc/imagecropper)
+
 ----------------------
 Version: 1.1.0
 Released: 2020-04-16
 ----------------------
 - Bug fixes
-    - Check if TinyMCE is installed (version by Oetzie)
 - Lexicon support for labels/descriptions
 
 ----------------------
