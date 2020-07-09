@@ -39,9 +39,12 @@ class ClientGridSnippetRender extends ClientGridSnippets
     {
         $this->setProperties($properties);
 
-        $output     = [];
+        $output = [];
+        $data   = $this->getProperty('input', '{}');
 
-        $data = json_decode($this->getProperty('input', '{}'), true);
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
 
         if ($data) {
             $render     = $this->getProperty('render');

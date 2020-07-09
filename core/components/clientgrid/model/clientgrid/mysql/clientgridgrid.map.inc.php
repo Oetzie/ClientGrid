@@ -50,7 +50,8 @@ $xpdo_meta_map['ClientGridGrid'] = [
             'dbtype'        => 'int',
             'precision'     => '11',
             'phptype'       => 'integer',
-            'null'          => false
+            'null'          => true,
+            'default'       => null
         ],
         'sort_dir'      => [
             'dbtype'        => 'varchar',

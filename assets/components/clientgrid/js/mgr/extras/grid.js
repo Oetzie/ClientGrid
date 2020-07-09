@@ -516,10 +516,19 @@ Ext.extend(ClientGrid.grid.GridView, MODx.grid.Grid, {
     },
     renderImage: function(d, c, e) {
         var value = e.json[this.dataIndex + '_replace'] || d;
-        var match = /^(http|https|www)/.test(value);
 
-        if (match || !Ext.isEmpty(value)) {
-            if (match === false) {
+        if (/^{(.*)}$/.test(value)) {
+            var valueJson = Ext.decode(value);
+
+            if (valueJson.image) {
+                value = valueJson.image;
+            }
+        }
+
+        var matchUrl = /^(http|https|www)/.test(value);
+
+        if (matchUrl || !Ext.isEmpty(value)) {
+            if (matchUrl === false) {
                 value = MODx.config.connectors_url + 'system/phpthumb.php?w=110&h=70&zc=1&src=' + value;
             }
 
