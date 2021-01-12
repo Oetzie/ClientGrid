@@ -8,7 +8,7 @@
                 xtype       : 'clientgrid-panel-gridview',
                 name        : 'tv{/literal}{$tv->id}{literal}',
                 grid        : '{/literal}{$config}{literal}',
-                value       : '{/literal}{str_replace('\"', '\\\"', $tv->value)}{literal}',
+                value       : '{/literal}{str_replace(['\"', '\''], ['\\\"', '\\\''], $tv->value)}{literal}',
                 renderTo    : 'clientgrid-panel-div-{/literal}{$tv->id}{literal}'
             });
         });

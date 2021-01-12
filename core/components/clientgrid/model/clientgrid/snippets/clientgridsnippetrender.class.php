@@ -49,8 +49,16 @@ class ClientGridSnippetRender extends ClientGridSnippets
         if ($data) {
             $render     = $this->getProperty('render');
             $limit      = (int) $this->getProperty('limit');
-            $where      = json_decode($this->getProperty('where'), true);
-            $sortby     = json_decode($this->getProperty('sortby'), true);
+            $where      = $this->getProperty('where');
+            $sortby     = $this->getProperty('sortby');
+
+            if (is_string($where)) {
+                $where  = json_decode($where, true);
+            }
+
+            if (is_string($sortby)) {
+                $sortby  = json_decode($sortby, true);
+            }
 
             $data       = (array) $this->cleanData($data);
 

@@ -174,7 +174,7 @@ Ext.extend(ClientGrid.grid.Fields, MODx.grid.Grid, {
                         MODx.Ajax.request({
                             url         : ClientGrid.config.connector_url,
                             params      : {
-                                action      : 'mgr/fields/sort',
+                                action      : 'mgr/grids/fields/sort',
                                 sort        : order.join(',')
                             },
                             listeners   : {

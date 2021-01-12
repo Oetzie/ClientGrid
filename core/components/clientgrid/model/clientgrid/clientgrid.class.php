@@ -50,7 +50,7 @@ class ClientGrid
             'css_url'           => $assetsUrl . 'css/',
             'assets_url'        => $assetsUrl,
             'connector_url'     => $assetsUrl . 'connector.php',
-            'version'           => '1.2.0',
+            'version'           => '1.2.1',
             'branding_url'      => $this->modx->getOption('clientgrid.branding_url', null, ''),
             'branding_help_url' => $this->modx->getOption('clientgrid.branding_url_help', null, ''),
             'has_permission'    => (bool) $this->modx->hasPermission('clientgrid')
@@ -277,7 +277,7 @@ class ClientGrid
                     } else if ($field['xtype'] === 'checkboxgroup') {
                         $newRow[$field['key']] = (array) $row[$field['key']] ?: [];
                     } else {
-                        $newRow[$field['key']] = $row[$field['key']] ?: '';
+                        $newRow[$field['key']] = preg_replace('/(\\n|\\t)/', '', $row[$field['key']] ?: '');
                     }
 
                     $replace = $this->formatDataReplace($field, $newRow[$field['key']]);
@@ -356,7 +356,7 @@ class ClientGrid
 
                 foreach ((array) $row as $key => $value) {
                     if (!in_array($key, ['idx', 'idx_hidden'], true)) {
-                        $newRow[str_replace('_replace', '', $key)] = $value;
+                        $newRow[$key] = $value;
                     }
                 }
 

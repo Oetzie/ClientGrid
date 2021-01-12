@@ -2,7 +2,7 @@ ClientGrid.panel.GridView = function(config) {
     config = config || {};
 
     Ext.apply(config, {
-        layout  : 'form',
+        layout  : 'anchor',
         items   : this.getItems(config)
     });
 
